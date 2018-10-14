@@ -1,22 +1,31 @@
+require_relative 'text_body'
 require 'twilio-ruby'
+# Dotenv.require_keys("TWILIO_ACCOUNT_SID", "MY_PHONE")
 
 class SMS
 
-  def send(text)
+  def initialize(text_body = TextBody)
+    @text_body = text_body.new
+  end
 
-    account_sid = 'AC8eea0c80bd486bd258221ec48de9f775'
-    auth_token = '0e15ccc3fbff116f9ce025106655873c'
+  def send(food, price)
+
+    account_sid = ENV['TWILIO_ACCOUNT_SID']
+    auth_token = ENV['TWILIO_AUTH_TOKEN']
     client = Twilio::REST::Client.new(account_sid, auth_token)
 
-    from = '+441133207546' # Your Twilio number
-    to = '+447837452334' # Your mobile phone number
+    from = ENV['MY_TWILIO_NUM']
+    to = ENV['MY_PHONE']
 
     client.messages.create(
     from: from,
     to: to,
-    body: text
+    body: @text_body.format_text(food, price)
     )
 
   end
 
 end
+
+p ENV['MY_TWILIO_NUM']
+my_sms = SMS.new
