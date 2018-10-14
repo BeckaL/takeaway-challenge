@@ -1,15 +1,22 @@
 class Menu
 
+  # TODO: format prices so two decimals shown if float
+  # TODO: load menu from csv?
+
+  attr_reader :items
+
   def initialize
+
     @items = {
-            "Chilli paneer" => 5,
-            "Daal" => 4.5,
-            "Rice" => 1.5
+            "chilli paneer" => 5,
+            "daal" => 4.5,
+            "rice" => 1.5
            }
   end
 
   def display
-    @items.map { |dish, price| "#{dish}: #{format_price(price)}" }.join("\n")
+    menu_lines = @items.map { |dish, price| "#{dish}: #{format_price(price)}" }
+    puts menu_lines.join("\n")
   end
 
   private
